@@ -31,6 +31,18 @@ def normalize_genre(genre: str) -> str:
     return genre.lower().strip()
 
 
+def contains_hype_keyword(genre: str) -> bool:
+    """Return True if `genre` contains any hype keyword."""
+    hype_keywords = ["rock", "punk", "party"]
+    return any(k in genre for k in hype_keywords)
+
+
+def contains_chill_keyword(title: str) -> bool:
+    """Return True if `title` contains any chill keyword."""
+    chill_keywords = ["lofi", "ambient", "sleep"]
+    return any(k in title for k in chill_keywords)
+
+
 def normalize_song(raw: Song) -> Song:
     """Return a normalized song dict with expected keys."""
     title = normalize_title(str(raw.get("title", "")))
@@ -67,11 +79,8 @@ def classify_song(song: Song, profile: Dict[str, object]) -> str:
     chill_max_energy = profile.get("chill_max_energy", 3)
     favorite_genre = profile.get("favorite_genre", "")
 
-    hype_keywords = ["rock", "punk", "party"]
-    chill_keywords = ["lofi", "ambient", "sleep"]
-
-    is_hype_keyword = any(k in genre for k in hype_keywords)
-    is_chill_keyword = any(k in title for k in chill_keywords)
+    is_hype_keyword = contains_hype_keyword(genre)
+    is_chill_keyword = contains_chill_keyword(title)
 
     if genre == favorite_genre or energy >= hype_min_energy or is_hype_keyword:
         return "Hype"
