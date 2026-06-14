@@ -1,113 +1,59 @@
-# Playlist Chaos
+# Playlist Chaos — AI110 Tinker Activity
 
-Your AI assistant tried to build a smart playlist generator. The app runs, but some of the behavior is unpredictable. Your task is to explore the app, investigate the code, and use an AI assistant to debug and improve it.
+An AI-generated Streamlit app that groups songs into mood-based playlists: **Hype**, **Chill**, and **Mixed**.
 
-This activity is your first chance to practice AI-assisted debugging on a codebase that is slightly messy, slightly mysterious, and intentionally imperfect.
-
-You do not need to understand everything at once. Approach the app as a curious investigator, work with an AI assistant to explain what you find, and make targeted improvements.
+This project was debugged and refactored as part of the AI110 course Tinker activity.
 
 ---
 
-## How the code is organized
+## 🚀 How to Run
 
-### `app.py`  
-
-The Streamlit user interface. It handles things like:
-
-- Showing and updating the mood profile  
-- Adding songs  
-- Displaying playlists  
-- Lucky pick  
-- Stats and history
-
-### `playlist_logic.py`  
-
-The logic behind the app, including:
-
-- Normalizing and classifying songs  
-- Building playlists  
-- Merging playlist data  
-- Searching  
-- Computing statistics  
-- Lucky pick mechanics
-
-You will need to look at both files to understand how the app behaves.
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
 
 ---
 
-## What you will do
+## 🐛 Bugs Fixed
 
-### 1. Explore the app  
+### Bug #1 — Search Partial Match (playlist_logic.py)
+- **Problem:** Search only worked with exact full artist name. Typing `ac` never found `ac/dc`.
+- **Cause:** `value in q` was backwards — checking if the artist was inside the query instead of the other way around.
+- **Fix:** Changed to `q in value` for correct partial, case-insensitive matching.
 
-Run the app and try things out:
+### Bug #2 — Hype Ratio Always 1.00 (playlist_logic.py)
+- **Problem:** Stats always showed Hype Ratio = 1.00 regardless of actual playlist counts.
+- **Cause:** `total = len(hype)` used Hype count as denominator instead of total songs.
+- **Fix:** Changed to `total_songs = len(all_songs)` as the correct denominator.
 
-- Add several songs with different titles, artists, genres, and energy levels  
-- Change the mood profile  
-- Use the search box  
-- Try the lucky pick  
-- Inspect the playlist tabs and stats  
-- Look at the history  
-
-As you explore, write down at least five things that feel confusing, inconsistent, or strange. These might be bugs, quirks, or unexpected design decisions.
-
-### 2. Ask AI for help understanding the code  
-
-Pick one issue from your list. Use an AI coding assistant to:
-
-- Explain the relevant code sections  
-- Walk through what the code is supposed to do  
-- Suggest reasons the behavior might not match expectations  
-
-For example:
-
-> "Here is the function that classifies songs. The app is mislabeling some songs. Help me understand what the function is doing and where the logic might need adjustment."
-
-Before making changes, summarize in your own words what you think is happening.
-
-### 3. Fix at least four issues  
-
-Make improvements based on your investigation.
-
-For each fix:
-
-- Identify the source of the issue  
-- Decide whether to accept or adjust the AI assistant's suggestions  
-- Update the code  
-- Add a short comment describing the fix  
-
-Your fixes may involve logic, calculations, search behavior, playlist grouping, lucky pick behavior, or anything else you discover.
-
-### 4. Test your changes  
-
-After each fix, try interacting with the app again:
-
-- Add new songs  
-- Change the profile  
-- Try search and stats  
-- Check whether playlists behave more consistently  
-
-Confirm that the behavior matches your expectations.
-
-### 5. Optional stretch goals  
-
-If you finish early or want an extra challenge, try one of these:
-
-- Improve search behavior  
-- Add a "Recently added" view  
-- Add sorting controls  
-- Improve how Mixed songs are handled  
-- Add new features to the history view  
-- Introduce better error handling for empty playlists  
-- Add a new playlist category of your own design  
+### Bug #3 — Average Energy Was Wrong (playlist_logic.py)
+- **Problem:** Average energy only reflected Hype songs, not all songs.
+- **Cause:** Energy was summed from `hype` list but divided by total songs — mismatched math.
+- **Fix:** Changed to sum energy from `all_songs` for accurate average.
 
 ---
 
-## Tips for success
+## 🔧 Refactor
 
-- You do not need to solve everything. Focus on exploring and learning.  
-- When confused, ask an AI assistant to explain the code or summarize behavior.  
-- Test the app often. Small experiments reveal useful clues.  
-- Treat surprising behavior as something worth investigating.  
-- Stay curious. The unpredictability is intentional and part of the experience.
+Extracted inline keyword checks in `classify_song` into two named helper functions:
+- `contains_hype_keyword(genre)` — checks if genre contains rock, punk, or party
+- `contains_chill_keyword(title)` — checks if title contains lofi, ambient, or sleep
 
-When you finish, Playlist Chaos will feel more predictable, and you will have taken your first steps into AI-assisted debugging.
+Same behavior, clearer intent, easier to maintain and reuse.
+
+---
+
+## 📝 Git History
+
+| Commit | Description |
+|--------|-------------|
+| `87d0cdc` | refactor: extracted keyword checks into helper functions |
+| `2d5c500` | fix: corrected hype_ratio and avg_energy calculations |
+| `c60d787` | fix: resolved case-insensitive partial match bug in search |
+
+---
+
+## 🛠 Tech Stack
+- Python
+- Streamlit
