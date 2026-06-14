@@ -57,3 +57,16 @@ Same behavior, clearer intent, easier to maintain and reuse.
 ## 🛠 Tech Stack
 - Python
 - Streamlit
+
+
+<img width="3817" height="1877" alt="image" src="https://github.com/user-attachments/assets/4e6a483a-9944-4c5f-abe1-7fc14854aaae" />
+
+<img width="2657" height="1885" alt="image" src="https://github.com/user-attachments/assets/a79cbfa8-ea7b-435c-9d23-721e8177af2d" />
+
+<img width="2142" height="1482" alt="image" src="https://github.com/user-attachments/assets/67110c4c-9633-4104-806c-718ed78a6424" />
+
+<img width="2131" height="1402" alt="image" src="https://github.com/user-attachments/assets/da9a4327-b18e-459e-acfd-750ff6d4fe9d" />
+
+
+
+
