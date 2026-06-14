@@ -116,13 +116,15 @@ def compute_playlist_stats(playlists: PlaylistMap) -> Dict[str, object]:
     chill = playlists.get("Chill", [])
     mixed = playlists.get("Mixed", [])
 
-    total = len(hype)
-    hype_ratio = len(hype) / total if total > 0 else 0.0
+    # Use the total number of songs as the denominator for ratios and averages.
+    total_songs = len(all_songs)
+    hype_ratio = len(hype) / total_songs if total_songs > 0 else 0.0
 
+    # Average energy should be computed across all songs, not just the hype playlist.
     avg_energy = 0.0
-    if all_songs:
-        total_energy = sum(song.get("energy", 0) for song in hype)
-        avg_energy = total_energy / len(all_songs)
+    if total_songs > 0:
+        total_energy = sum(song.get("energy", 0) for song in all_songs)
+        avg_energy = total_energy / total_songs
 
     top_artist, top_count = most_common_artist(all_songs)
 
